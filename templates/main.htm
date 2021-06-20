@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Member-club-demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <style>
+        .form-button{
+            background-color: transparent;
+            border-radius: 2em/0.6em;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body class="container col-md-8">
+    <h1 class="text-center">Welcome to the Club!</h1>
+    <div><b>New member</b></div>
+    <form action="/" method="POST">
+        <label for="name">Name:</label>
+        <input name="name" required>
+        <br>
+        {% if formerror -%}
+        <div class="alert alert-error">{{formerror}}</div>
+        {% endif %}
+        <label for="email">Email:</label>
+        <input name="email" required>
+        <br>
+        <input type='submit' value='Add' class="form-button"/>
+        <input type='reset' value="Clear" class="form-button"/>
+    </form>
+    <h3 class="text-center">Members:</h3>
+    <table class="table table-bordered">
+        <thead>
+            <th>#</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Registration date</th>
+        </thead>
+        <tbody>
+            {% for member in members -%}
+                <tr>
+                    <td>{{member.id}}</td>
+                    <td>{{member.name}}</td>
+                    <td>{{member.email}}</td>
+                    <td>{{member.registration_date}}</td>
+                </tr>
+            {% endfor -%}
+        </tbody>
+    </table>
+    <hr>
+    <footer>Qgelena, 2021</footer>
+</body>
+</html>
