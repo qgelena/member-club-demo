@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import os
 from datetime import datetime
 import logging
 
@@ -52,7 +53,11 @@ def add_member():
     return flask.redirect(flask.url_for('main_page'))
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG)
+    debug = 'DEBUG' in os.environ
+    port = int(os.environ.get('PORT', 5000))
+    if debug:
+        logging.basicConfig(level=logging.DEBUG)
+
     db.init_app(app)
     db.create_all(app=app)
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=port, debug=debug)
