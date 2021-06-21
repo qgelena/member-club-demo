@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import re
 import os
 from datetime import datetime
 import logging
@@ -27,21 +28,24 @@ db.init_app(app)
 @app.route('/')
 def main_page():
     members = database.Member.query.all()
-    if members:
-        print(members[0].email)
     return render_template('main.htm', members=members)
 
 @app.route('/', methods=['POST'])
 def add_member():
     try:
         name = request.form['name']
+        reg = r'[A-Za-z.\s]+'
+        if not re.fullmatch(reg, name):
+            raise ValueError('Incorrect name format')
+        re.fullmatch(reg, name)
         email = request.form['email']
         validate_email(email)
-    except (KeyError, EmailNotValidError) as e:
+    except (KeyError, ValueError, EmailNotValidError) as e:
         members = database.Member.query.all()
         return render_template('main.htm', members=members, formerror=str(e))
         
     registration_date = datetime.now()
+    print(registration_date)
 
     try:
         member = database.Member(name, email, registration_date)
@@ -49,7 +53,10 @@ def add_member():
         db.session.commit()
         logging.info(f'added member {email} successfully')
     except sqlexc.IntegrityError as e:
-        return jsonify({"status": "error", "message": str(e)}), 400
+        db.session.rollback()
+        members = database.Member.query.all()
+        formerror = f'A member with email {email} already exists'
+        return render_template('main.htm', members=members, formerror=formerror)
     return flask.redirect(flask.url_for('main_page'))
 
 if __name__ == '__main__':

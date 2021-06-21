@@ -14,7 +14,7 @@ A very simple "Member club" web application, using Flask, SQLAlchemy and Jinja.
 
 ## Requirements:
 
-Python >= 3.6.9
+Python >= 3.7
 
 ## Розгортання і запуск:
 
@@ -31,19 +31,19 @@ $ source venv/bin/activate
 
 ### запуск
 ```
+(venv)$ export PORT=8888
 (venv)$ ./app.py
-Listening on http://127.0.0.1:5000
+Listening on http://0.0.0.0:8888
 ```
 
 ### Deployment
 
-* `Dockerfile` and `docker-compose.yml`
+* TODO: `Dockerfile` and `docker-compose.yml`
 
-* Heroku link here
+* https://member-club-demo.herokuapp.com/
 
-### test using Pytest:
+### Unit tests:
 ```
-(venv)$ pip install -r test-requirements.txt
-(venv)$ pytest
+# TODO
 ```
 
